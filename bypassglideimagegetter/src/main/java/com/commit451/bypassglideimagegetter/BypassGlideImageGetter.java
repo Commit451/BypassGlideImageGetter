@@ -17,13 +17,13 @@ import in.uncod.android.bypass.Bypass;
 // credits: http://stackoverflow.com/a/25530488/504611
 public class BypassGlideImageGetter implements Bypass.ImageGetter {
 
-    private RequestManager mRequestManager;
-    private final WeakReference<TextView> mTextViewWeakReference;
+    private RequestManager requestManager;
+    private final WeakReference<TextView> textViewWeakReference;
     private int maxWidth = -1;
 
     public BypassGlideImageGetter(final TextView textView, RequestManager requestManager) {
-        mTextViewWeakReference = new WeakReference<>(textView);
-        mRequestManager = requestManager;
+        textViewWeakReference = new WeakReference<>(textView);
+        this.requestManager = requestManager;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class BypassGlideImageGetter implements Bypass.ImageGetter {
             @Override
             protected Bitmap doInBackground(final Void... meh) {
                 try {
-                    return mRequestManager
+                    return requestManager
                             .load(source)
                             .asBitmap()
                             .centerCrop()
@@ -49,7 +49,7 @@ public class BypassGlideImageGetter implements Bypass.ImageGetter {
 
             @Override
             protected void onPostExecute(final Bitmap bitmap) {
-                TextView textView = mTextViewWeakReference.get();
+                TextView textView = textViewWeakReference.get();
                 if (textView == null) {
                     return;
                 }
